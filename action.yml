@@ -1,0 +1,19 @@
+name: 'Daily Commit Pusher'
+description: 'Cherry-picks and pushes one commit daily from a feature branch to develop'
+
+inputs:
+  source-branch:
+    description: 'Branch to cherry-pick from (e.g., feature/sorting)'
+    required: true
+  target-branch:
+    description: 'Branch to push into (e.g., develop)'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run push script
+      shell: bash
+      run: |
+        chmod +x ${{ github.action_path }}/scripts/script.sh
+        ${{ github.action_path }}/scripts/script.sh "${{ inputs.source-branch }}" "${{ inputs.target-branch }}"
